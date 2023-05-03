@@ -1,0 +1,37 @@
+{
+  "name": "ethereum_explorer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn tsx ./src/index.ts",
+    "watch": "yarn tsx watch ./src/index.ts",
+    "clean": "rimraf dist && mkdirp dist",
+    "build": "npm run clean && tsup --config configs/tsup.config.ts && npm run copy_files",
+    "copy_files": "cpy ./package.json ./README.md ./dist",
+    "patch": "npm run release -- -i patch --ci",
+    "release": "dotenv -e ./configs/.release.env -- release-it --config ./configs/.release-it.js --github.release",
+    "testrun": "vitest run",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "cpy-cli": "^4.2.0",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^7.2.1",
+    "mkdirp": "^3.0.1",
+    "release-it": "^15.10.2",
+    "rimraf": "^5.0.0",
+    "tsup": "^6.7.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  },
+  "dependencies": {
+    "@unique-nft/solidity-interfaces": "^0.52.1",
+    "abi-coder": "^5.0.0",
+    "axios": "^1.4.0",
+    "bullmq": "^3.12.0",
+    "ethers": "^6.3.0",
+    "ioredis": "^5.3.2"
+  }
+}

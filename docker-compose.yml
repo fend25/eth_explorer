@@ -1,0 +1,47 @@
+version: '3'
+
+volumes:
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker_volumes/redis_data
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker_volumes/postgres_data
+  node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker_volumes/node_modules
+
+services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+#
+#  redis:
+#    image: redis:latest
+#    volumes:
+#      - redis_data:/data
+#    ports:
+#      - "6379:6379"
+#
+  explorer:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - node_modules:/app/node_modules
+    depends_on:
+      - postgres

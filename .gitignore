@@ -1,0 +1,16 @@
+.idea
+.vscode
+
+node_modules
+*.env
+!*.example.env
+
+dist
+____*
+
+tsconfig.tsbuildinfo
+.tsconfig.tsbuildinfo
+.tsbuildinfo
+
+
+docker_volumes
