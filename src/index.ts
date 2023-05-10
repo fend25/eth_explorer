@@ -67,7 +67,6 @@ const getBlock = async (provider: ethers.Provider, blockNumber: number): Promise
   return block
 }
 
-
 const main = async () => {
   const rpcUrl = process.env.RPC_UNIQSU
   if (!rpcUrl) throw Error(`Please set a RPC_UNIQSU environment variable.`)
@@ -85,8 +84,11 @@ const main = async () => {
   // });
 
   //  //8296156
-  const block = await getBlock(provider, 8327215)
-  console.log(block)
+  // const block = await getBlock(provider, 8327215)
+  // console.log(block)
+
+  const tx = await provider.getTransactionReceipt('0x9f05a68f33476322e22b5872e32193d803be10c44ad6812bf25745c4f7434770')
+  console.log(tx)
 
   //todo:
   // 1. instantiate last block id records in db

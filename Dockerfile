@@ -11,6 +11,7 @@ RUN yarn install --production=false
 
 # Copy the src directory as is
 COPY src/ ./src/
+COPY prisma/ ./prisma/
 
 # Expose port 3000
 EXPOSE 3000
