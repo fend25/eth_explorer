@@ -12,14 +12,14 @@
     "patch": "npm run release -- -i patch --ci",
     "release": "dotenv -e ./configs/.release.env -- release-it --config ./configs/.release-it.js --github.release",
     "testrun": "vitest run",
-    "test": "vitest"
+    "test": "vitest",
+    "generate": "drizzle-kit generate:pg"
   },
   "devDependencies": {
     "cpy-cli": "^4.2.0",
-    "dotenv": "^16.0.3",
     "dotenv-cli": "^7.2.1",
+    "drizzle-kit": "^0.19.3",
     "mkdirp": "^3.0.1",
-    "prisma": "^4.13.0",
     "release-it": "^15.10.2",
     "rimraf": "^5.0.0",
     "tsup": "^6.7.0",
@@ -32,8 +32,12 @@
     "abi-coder": "^5.0.0",
     "axios": "^1.4.0",
     "bullmq": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^10.0.0",
+    "drizzle-orm": "^0.27.1",
     "ethers": "^6.3.0",
     "ioredis": "^5.3.2",
-    "pg-promise": "^11.4.3"
+    "pg-promise": "^11.4.3",
+    "postgres": "^3.3.5"
   }
 }

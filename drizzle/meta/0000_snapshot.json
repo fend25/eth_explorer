@@ -1,0 +1,169 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "12540381-80ce-4026-b302-4e3d57d23ab1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "event": {
+      "name": "event",
+      "schema": "",
+      "columns": {
+        "event_synthetic_id": {
+          "name": "event_synthetic_id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "block_number": {
+          "name": "block_number",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "block_hash": {
+          "name": "block_hash",
+          "type": "char(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "block_timestamp": {
+          "name": "block_timestamp",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extrinsic_synthetic_id": {
+          "name": "extrinsic_synthetic_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extrinsic_index": {
+          "name": "extrinsic_index",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extrinsic_hash": {
+          "name": "extrinsic_hash",
+          "type": "char(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ethereum_hash": {
+          "name": "ethereum_hash",
+          "type": "char(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_index": {
+          "name": "event_index",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_section": {
+          "name": "event_section",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_name": {
+          "name": "event_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metadata_version": {
+          "name": "metadata_version",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_originator": {
+          "name": "address_originator",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_from": {
+          "name": "address_from",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_from_is_ethereum": {
+          "name": "address_from_is_ethereum",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_to": {
+          "name": "address_to",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address_to_is_ethereum": {
+          "name": "address_to_is_ethereum",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collection_id_from": {
+          "name": "collection_id_from",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collection_id_to": {
+          "name": "collection_id_to",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_id_from": {
+          "name": "token_id_from",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_id_to": {
+          "name": "token_id_to",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_parts_amount": {
+          "name": "token_parts_amount",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_data": {
+          "name": "event_data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_parsed": {
+          "name": "is_parsed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
