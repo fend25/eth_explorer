@@ -2,7 +2,7 @@ import {ethers} from 'ethers'
 
 import * as dotenv from 'dotenv'
 
-import { Coder } from 'abi-coder';
+import { Coder } from 'abi-coder'
 
 dotenv.config()
 

@@ -1,8 +1,5 @@
 import type { Config } from 'drizzle-kit'
-
-import dotenv from 'dotenv'
-import dotenvExpand from 'dotenv-expand'
-dotenvExpand.expand(dotenv.config())
+import './dal/_config/connection' // to run dotenv
 
 const connectionString = process.env.DATABASE_URL
 if (!connectionString) {
@@ -10,7 +7,7 @@ if (!connectionString) {
 }
 
 export default {
-  schema: './dal/_schema.ts',
+  schema: './dal/_config/schemas.ts',
   out: './drizzle',
   driver: 'pg',
   dbCredentials: {

@@ -5,6 +5,7 @@
     "target": "ESNext",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "strict": true,
   }
 }

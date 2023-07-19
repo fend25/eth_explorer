@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "yarn tsx ./src/index.ts",
     "watch": "yarn tsx watch ./src/index.ts",
@@ -16,6 +17,7 @@
     "generate": "drizzle-kit generate:pg"
   },
   "devDependencies": {
+    "@polkadot/api": "^10.9.1",
     "cpy-cli": "^4.2.0",
     "dotenv-cli": "^7.2.1",
     "drizzle-kit": "^0.19.3",
@@ -28,7 +30,13 @@
     "vitest": "^0.30.1"
   },
   "dependencies": {
+    "@polkadot/rpc-provider": "^10.9.1",
+    "@substrate/connect": "^0.7.30",
+    "@unique-nft/opal-testnet-types": "^942.57.0",
+    "@unique-nft/quartz-mainnet-types": "^942.57.0",
     "@unique-nft/solidity-interfaces": "^0.52.1",
+    "@unique-nft/unique-mainnet-types": "^942.57.0",
+    "@unique-nft/utils": "^0.3.14",
     "abi-coder": "^5.0.0",
     "axios": "^1.4.0",
     "bullmq": "^3.12.0",
