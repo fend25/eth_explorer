@@ -1,6 +1,5 @@
 import postgres from 'postgres'
 import {drizzle} from 'drizzle-orm/postgres-js'
-export {opalDb, quartzDb, uniqueDb} from './schemas'
 
 import dotenv from 'dotenv'
 import dotenvExpand from 'dotenv-expand'
@@ -23,6 +22,14 @@ export const getDb = () => {
   cache.client = postgres(connectionString)
   cache.db = drizzle(cache.client)
   return cache.db
+}
+
+import {substrateBlockTable, substrateEventTable} from './_tables'
+export const tables = {
+  substrate: {
+    block: substrateBlockTable,
+    event: substrateEventTable,
+  }
 }
 
 export const disconnectFromDb = async () => {

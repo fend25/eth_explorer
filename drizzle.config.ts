@@ -7,7 +7,7 @@ if (!connectionString) {
 }
 
 export default {
-  schema: './dal/_config/schemas.ts',
+  schema: './dal/_tables.ts',
   out: './drizzle',
   driver: 'pg',
   dbCredentials: {

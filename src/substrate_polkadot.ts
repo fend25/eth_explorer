@@ -11,7 +11,8 @@ import * as fs from 'fs'
 import {ApiPromise, WsProvider} from '@polkadot/api'
 
 import {SubstrateEvent, SubstrateExtrinsic, SubstrateBlockResult} from "./types/substrate";
-import {disconnectFromDb, getDb, opalDb} from "../dal/_config/connection";
+import {disconnectFromDb, getDb} from "../dal/_config/connection";
+import {blockTable} from "../dal/_config/schemas";
 
 const RPC_URL = process.env.RPC_OPAL
 const WS_URL = process.env.WS_OPAL
@@ -35,7 +36,7 @@ const connect = async () => {
   return cache.api
 }
 
-const getBlockWithAllInfo = async (api: ApiPromise, blockNumber: number, wsUrl: string) => {
+const getBlockWithAllInfo = async (api: ApiPromise, blockNumber: number) => {
   const blockHash = await api.rpc.chain.getBlockHash(blockNumber)
   // const blockHash = '0x01001404c065a24495acb8f812871639bef58b3da9b71707805bf742e1703d83'
   const block = (await api.rpc.chain.getBlock(blockHash))
@@ -89,7 +90,7 @@ const getBlockWithAllInfo = async (api: ApiPromise, blockNumber: number, wsUrl: 
     }
 
     result.section = section
-    result.method = section
+    result.method = method
     result.extrinsicIndex = extrinsicIndex
     result.data = json.event.data
     result.topics = json.topics
@@ -105,17 +106,29 @@ const getBlockWithAllInfo = async (api: ApiPromise, blockNumber: number, wsUrl: 
   })
 
   return {
+    chainName: 'opal',
     block: {
       blockNumber: blockNumber,
       blockHash: blockHash.toHex(),
       parentBlockHash: block.block.header.parentHash.toHex(),
       blockTimestamp: blockTimestamp,
-      appsUiLink: `https://polkadot.js.org/apps/?rpc=${wsUrl}/#/explorer/query/${blockHash.toHex()}`,
+      extrinsicsRoot: block.block.header.extrinsicsRoot.toHex(),
+      stateRoot: block.block.header.stateRoot.toHex(),
+      digest: {
+        logs: block.block.header.digest.logs.map(log => {
+          const json = log.toJSON() as {[K: string]: string[]}
+          const human = log.toHuman() as {[K: string]: string[]}
+
+          return Object.keys(json).reduce((acc, key) => {
+            acc[key] = json[key]
+            acc[key][0] = human[key][0]
+            return acc
+          }, {} as {[K: string]: string[]})
+        })
+      }
     },
     extrinsics,
     events,
-    blockRawJson: block.toJSON(),
-    blockRawHuman: block.toHuman(),
   } satisfies SubstrateBlockResult
 }
 
@@ -123,18 +136,16 @@ const main = async () => {
   const db = getDb()
   const api = await connect()
 
-  const table = opalDb.substrateBlockRaw
-
   const maxBlockNumberInDbResult = await db
     .select({maxBlockNumber: sql<string>`max(block_number)`})
-    .from(opalDb.substrateBlockRaw)
+    .from(blockTable)
   console.log(maxBlockNumberInDbResult)
   console.log(`maxBlockNumberInDbResult: ${JSON.stringify(maxBlockNumberInDbResult, null, 2)}`)
   const assumingAMaxBlockNumberInDb = parseInt(maxBlockNumberInDbResult[0].maxBlockNumber, 10)
   const maxBlockNumberInDb = isNaN(assumingAMaxBlockNumberInDb) ? 0 : assumingAMaxBlockNumberInDb
 
   console.log(`maxBlockNumberInDb: ${maxBlockNumberInDb}`)
-  // const result = await getBlockWithAllInfo(api, maxBlockNumberInDb, WS_URL); console.dir(result, {depth: 100}); return
+  // const result = await getBlockWithAllInfo(api, maxBlockNumberInDb); console.dir(result, {depth: 100}); return
 
   const startTimeTotal = Date.now()
 
@@ -155,16 +166,14 @@ const main = async () => {
       break
     }
 
-    const result = await getBlockWithAllInfo(api, blockNumber, WS_URL)
+    const result = await getBlockWithAllInfo(api, blockNumber)
     const chainRequestTimestamp = Date.now()
 
-    await db.insert(table).values({
+    await db.insert(blockTable).values({
       blockNumber: result.block.blockNumber,
       blockHash: result.block.blockHash,
       blockTimestamp: new Date(result.block.blockTimestamp),
       blockInfo: result.block,
-      blockRawJson: result.blockRawJson,
-      blockRawHuman: result.blockRawHuman,
       extrinsics: result.extrinsics,
       events: result.events,
     }).onConflictDoNothing()
